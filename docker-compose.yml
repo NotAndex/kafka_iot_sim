@@ -1,0 +1,29 @@
+---
+version: '3'
+
+services:
+  zookeeper:
+    extends:
+      file: ./kafka_cluster/docker-compose-kafka-cluster.yml
+      service: zookeeper
+  broker:
+    extends:
+      file: ./kafka_cluster/docker-compose-kafka-cluster.yml
+      service: broker
+    depends_on:
+      - zookeeper
+  # device_1:
+  #   depends_on:
+  #     - broker
+  #   build:
+  #     context: ./iot_data_gen
+  #     dockerfile: Dockerfile
+  #   image: iot_data_gen:latest
+  #   container_name: device_1
+  #   command:
+  #     [
+  #       "--device_struct",
+  #       '[{"name":"sensor_1","properties":{"obs_frequency":"1"}},{"name":"sensor_2","properties":{"obs_frequency":"1"}}]',
+  #       "--topic",
+  #       "test"
+  #     ]

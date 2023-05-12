@@ -2,7 +2,7 @@
 use chrono::Utc;
 use rand::Rng;
 use rdkafka::config::ClientConfig;
-use rdkafka::producer::BaseProducer;
+use rdkafka::producer::{BaseProducer, BaseRecord};
 use serde_json;
 use std::collections::HashMap;
 use std::sync::mpsc::{channel, Sender};
@@ -36,12 +36,12 @@ fn main() {
     let (device_struct, topic) = get_args();
     let sensor_count = device_struct.len();
 
-    // let producer: BaseProducer = ClientConfig::new()
-    //     .set("bootstrap.servers", "localhost:9092")
-    //     .create()
-    //     .expect("Producer creation error");
+    let producer: BaseProducer = ClientConfig::new()
+        .set("bootstrap.servers", "localhost:9092")
+        .create()
+        .expect("Producer creation error");
 
-    // create senders and one receiver
+    //create senders and one receiver
     let (tx, rx) = channel::<HashMap<String, String>>();
     let mut txs: Vec<Sender<HashMap<String, String>>> = Vec::new();
     for _ in 0..(sensor_count - 1) {
@@ -67,9 +67,9 @@ fn main() {
                 let payload: &String = msg.get("observation").unwrap();
                 println!("│ key: {} ║ value -> {}{}", key, format!("{:<82}", payload), "│");
 
-                // producer
-                //     .send(BaseRecord::to("purchases").payload(&payload).key(key))
-                //     .expect("Failed to enqueue");
+                producer
+                    .send(BaseRecord::to(&topic).payload(payload).key(key))
+                    .expect("Failed to enqueue");
             }
             println!("└{:─<108}┘", "");
             msg_batches.clear();
