@@ -4,26 +4,48 @@ version: '3'
 services:
   zookeeper:
     extends:
-      file: ./kafka_cluster/docker-compose-kafka-cluster.yml
+      file: ./kafka_cluster/kafka_cluster.yml
       service: zookeeper
+  # -----------------------      
   broker:
     extends:
-      file: ./kafka_cluster/docker-compose-kafka-cluster.yml
+      file: ./kafka_cluster/kafka_cluster.yml
       service: broker
     depends_on:
       - zookeeper
-  # device_1:
-  #   depends_on:
-  #     - broker
-  #   build:
-  #     context: ./iot_data_gen
-  #     dockerfile: Dockerfile
-  #   image: iot_data_gen:latest
-  #   container_name: device_1
-  #   command:
-  #     [
-  #       "--device_struct",
-  #       '[{"name":"sensor_1","properties":{"obs_frequency":"1"}},{"name":"sensor_2","properties":{"obs_frequency":"1"}}]',
-  #       "--topic",
-  #       "test"
-  #     ]
+  # -----------------------     
+  create_topic:
+    depends_on:
+      - broker
+    network_mode: host
+    build:
+      context: ./create_topic
+      dockerfile: Dockerfile
+    image: create_new_topic:latest
+    container_name: create_new_topic
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - TOPIC=test
+      - BOOTSTRAP_SERVER=host.docker.internal:9092
+  # # -----------------------     
+  device_1:
+    depends_on:
+      - create_topic
+    build:
+      context: ./iot_data_gen
+      dockerfile: Dockerfile
+    image: iot_data_gen:latest
+    container_name: device_1
+    network_mode: host
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      [
+        "--device_struct",
+        '[{"name":"sensor_1","properties":{"obs_frequency":"1"}},{"name":"sensor_2","properties":{"obs_frequency":"1"}}]',
+        "--topic",
+        "test",
+        "--bootstrap_server",
+        "host.docker.internal:9092"
+      ]

@@ -5,7 +5,6 @@ COPY . .
 RUN cargo install --path .
 
 FROM debian:bullseye-slim
-RUN echo cmake --version
 COPY --from=builder /usr/local/cargo/bin/iot_data_gen /usr/local/bin/iot_data_gen
 
 ENTRYPOINT ["iot_data_gen"]

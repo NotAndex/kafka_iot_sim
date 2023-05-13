@@ -33,11 +33,11 @@ fn sensor(sender: Sender<HashMap<String, String>>, sensor_name: String, obs_freq
 }
 
 fn main() {
-    let (device_struct, topic) = get_args();
+    let (device_struct, topic, bootstrap_server) = get_args();
     let sensor_count = device_struct.len();
 
     let producer: BaseProducer = ClientConfig::new()
-        .set("bootstrap.servers", "localhost:9092")
+        .set("bootstrap.servers", bootstrap_server)
         .create()
         .expect("Producer creation error");
 
