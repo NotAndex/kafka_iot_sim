@@ -1,4 +1,4 @@
-# Kafa IoT Data Processing Simulation (WIP)
+# Kafka IoT Data Processing Simulation (WIP)
 *This repository is for simulating the dynamic data flow of an IoT environment right on your local PC. It can be used for understanding the system's various technologies and further to derive implementaion concepts.*
 
 ## TODO
@@ -9,12 +9,23 @@
   * MySQL?
 * Write this README.md
 
-## Overview
-...
-
 ## Prerequisites
-* WSL 2
-* Docker
+* [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install)
+* [Docker Desktop](https://www.docker.com/get-started/)
+  * Docker Compose V2
 
 ## Quick Start
+### Starting Kafka IoT Data Processing Simulation
+...
+
+```Bash
+git clone https://github.com/NotAndex/kafka_iot_sim.git
+cd kafka_iot_sim
+docker compose up -d
+```
+
+### Local Development
+...
+
+## Architecture Overview
 ...
