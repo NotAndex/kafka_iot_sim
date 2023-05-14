@@ -1,0 +1,24 @@
+---
+version: '3'
+
+services:
+  iot_data_gen:
+    depends_on:
+      - create_topic
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: iot_data_gen:latest
+    container_name: default
+    network_mode: host
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # command:
+    #   [
+    #     "--device_struct",
+    #     '[{"name":"sensor_1","properties":{"obs_frequency":"1"}},{"name":"sensor_2","properties":{"obs_frequency":"1"}}]',
+    #     "--topic",
+    #     "test",
+    #     "--bootstrap_server",
+    #     "host.docker.internal:9092"
+    #   ]

@@ -1,0 +1,17 @@
+---
+version: '3'
+services:
+  create_topic:
+    depends_on:
+      - broker
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: create_topic:latest
+    container_name: default
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - TOPIC=default
+      - BOOTSTRAP_SERVER=host.docker.internal:9092
