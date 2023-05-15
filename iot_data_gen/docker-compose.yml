@@ -11,8 +11,6 @@ services:
     image: iot_data_gen:latest
     container_name: default
     network_mode: host
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     # command:
     #   [
     #     "--device_struct",

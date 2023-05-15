@@ -38,5 +38,5 @@ services:
         "--topic",
         "test",
         "--bootstrap_server",
-        "host.docker.internal:9092"
+        "localhost:9092"
       ]
