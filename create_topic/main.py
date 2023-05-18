@@ -1,5 +1,6 @@
-from confluent_kafka.admin import AdminClient, NewTopic
 import os
+
+from confluent_kafka.admin import AdminClient, NewTopic
 
 bootstrap_server = os.environ.get('BOOTSTRAP_SERVER')
 topic_name = os.environ.get("TOPIC")

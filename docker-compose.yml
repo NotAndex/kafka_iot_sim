@@ -40,3 +40,13 @@ services:
         "--bootstrap_server",
         "localhost:9092"
       ]
+  # ----------------------- 
+  spark_consumer:
+    extends:
+      file: ./consumer/docker-compose.yml
+      service: spark_consumer
+    depends_on:
+      - device_1
+    container_name: spark_console_output
+    environment:
+      - TOPIC=test

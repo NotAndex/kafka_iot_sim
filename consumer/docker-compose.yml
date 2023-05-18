@@ -1,0 +1,13 @@
+---
+version: '3'
+services:
+  spark_consumer:
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spark_consumer:latest
+    container_name: spark_console_output
+    environment:
+      - TOPIC=default
+      - BOOTSTRAP_SERVER=localhost:9092
