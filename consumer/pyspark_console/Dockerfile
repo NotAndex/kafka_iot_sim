@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY pyspark_consumer.py .
+COPY main.py .
 
 RUN python -m pip install pyspark
 

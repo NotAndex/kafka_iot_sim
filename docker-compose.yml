@@ -43,7 +43,7 @@ services:
   # ----------------------- 
   spark_consumer:
     extends:
-      file: ./consumer/docker-compose.yml
+      file: ./consumer/pyspark_console/docker-compose.yml
       service: spark_consumer
     depends_on:
       - device_1
