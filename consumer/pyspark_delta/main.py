@@ -1,3 +1,5 @@
+import os
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import (
     col,
@@ -14,12 +16,11 @@ spark = SparkSession.builder \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .getOrCreate()
 
-# Define the Kafka topic and server details
-topic = "test"
-kafka_servers = "localhost:9092"
+bootstrap_server = os.environ.get('BOOTSTRAP_SERVER')
+topic_name = os.environ.get("TOPIC")
 
 # Create a DataFrame representing the Kafka messages
-df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", kafka_servers).option("subscribe", topic) .load()
+df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", bootstrap_server).option("subscribe", topic_name) .load()
 
 # Convert the binary key and value columns to strings
 df = df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)")
@@ -51,7 +52,7 @@ partition_columns = ["year", "month", "day", "hour", "minute"]
 query = df.writeStream.format("delta") \
     .outputMode("append") \
     .partitionBy(partition_columns) \
-    .option("checkpointLocation", "/workspaces/pyspark/delta/checkpoint-dir") \
-    .start("/workspaces/pyspark/delta/delta-table")
+    .option("checkpointLocation", "/app/delta_lake/bronze_checkpoint") \
+    .start("/app/delta_lake/bronze")
 # Wait for the streaming query to finish
 query.awaitTermination()

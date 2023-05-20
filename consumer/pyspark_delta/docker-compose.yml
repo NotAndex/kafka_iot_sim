@@ -1,0 +1,13 @@
+---
+version: '3'
+services:
+  consumer_pyspark_delta:
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: consumer_pyspark_delta:latest
+    container_name: consumer_pyspark_delta
+    environment:
+      - TOPIC=default
+      - BOOTSTRAP_SERVER=localhost:9092
