@@ -1,13 +1,13 @@
 ---
 version: '3'
 services:
-  spark_consumer:
+  consumer_pyspark_console:
     network_mode: host
     build:
       context: .
       dockerfile: Dockerfile
-    image: spark_consumer:latest
-    container_name: spark_console_output
+    image: consumer_pyspark_console:latest
+    container_name: consumer_pyspark_console
     environment:
       - TOPIC=default
       - BOOTSTRAP_SERVER=localhost:9092
