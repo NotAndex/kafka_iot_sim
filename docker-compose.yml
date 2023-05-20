@@ -1,6 +1,10 @@
 ---
 version: '3'
 
+volumes:
+  delta_lake:
+    driver: local
+
 services:
   zookeeper:
     extends:
@@ -41,12 +45,24 @@ services:
         "localhost:9092"
       ]
   # ----------------------- 
-  spark_consumer:
+  # consumer_pyspark_console:
+  #   extends:
+  #     file: ./consumer/pyspark_console/docker-compose.yml
+  #     service: consumer_pyspark_console
+  #   depends_on:
+  #     - device_1
+  #   container_name: consumer_pyspark_console
+  #   environment:
+  #     - TOPIC=test
+
+  consumer_pyspark_delta:
     extends:
-      file: ./consumer/pyspark_console/docker-compose.yml
-      service: spark_consumer
+      file: ./consumer/pyspark_delta/docker-compose.yml
+      service: consumer_pyspark_delta
     depends_on:
       - device_1
-    container_name: spark_console_output
+    container_name: consumer_pyspark_delta
     environment:
       - TOPIC=test
+    volumes:
+      - delta_lake:/app/delta_lake
