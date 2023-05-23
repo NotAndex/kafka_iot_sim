@@ -1,5 +1,6 @@
-# Kafka IoT Data Processing Simulation (WIP)
+# Kafka IoT Data Processing Simulation
 *This repository is for simulating the dynamic data flow of an IoT environment right on your local PC. It can be used for understanding the system's various technologies and further to derive implementaion concepts.*
+<p align="center"><img src="docs/images/architecture.svg" alt="Example Image" width="800"></p>
 
 ## Quickstart
 ### Prerequisites
@@ -42,8 +43,6 @@ It is highly recommended to start exploring and experimenting with different con
 ...
 
 ## Architecture Overview
-TODO: add IMG
-
 ### Producer (iot_data_gen)
 A *producer* is a client application that pushes (writes) events to a Kafka *broker*. In this simulation, the client application is an IoT device that comprises multiple sensors. The observations (events) are written to a *topic*, where each sensor represents a key in the *topic*.
 
@@ -64,5 +63,6 @@ A Kafka cluster usually comprises several *brokers* that ensure load balancing. 
 ## Credits
 * [CONFLUENT](https://www.confluent.io/) for providing such a nice Kafka Docker Image and documentation.
 * [https://kafka.apache.org/documentation/](https://kafka.apache.org/documentation/) for being a valuable source of information.
+* [https://app.diagrams.net/](https://app.diagrams.net/) for making clean diagrams
 
 
